@@ -1,1 +1,47 @@
-/* I will be adding the styles step by step in this file */
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    text-align: center;
+}
+
+.seesaw-wrapper {
+    position: relative;
+    width: 100%;
+    height: 300px;
+    margin: 50px 0;
+}
+
+.plank {
+    width: 400px;
+    height: 20px;
+    background-color: #8B4513;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-left: -200px;
+    margin-top: -10px;
+    border-radius: 5px;
+}
+
+.pivot {
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-bottom: 20px solid black;
+    position: absolute;
+    left: 50%;
+    top: calc(50% + 10px);
+    margin-left: -10px;
+    z-index: 1;
+}
+
+.ui-section {
+    margin-top: 30px;
+    font-size: 18px;
+}
+
+.ui-section p {
+    margin: 10px 0;
+}
