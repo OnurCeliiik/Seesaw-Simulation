@@ -27,4 +27,21 @@
     - clickPositionToDistance(): converts a click position (0-400px) to a signed distance from the pivot.
     - getClickPositionRelativeToPlank(): gets where the user clicked relative to plank.
     - clickEventToDistance(): combines both to convert a click event to a distance from the pivot. 
-    
+
+
+### Stage 3
+- I created the DOM structure for the seesaw:
+    - Added a plank element for horizontal board representation
+    - Added a pivot element that shows the center visually
+    - Objects will be placed inside the plank element so they rotate with it.
+- I styled the basic elements:
+    - Plank: 400px wide, 20px tall, brown color, centered on the page
+    - Pivot: Triangle shape, positioned below the plank at the center
+
+### Stage 4
+- I added CSS properties for rotation and animation:
+    - Set transform-origin to center so the plank rotates around its center point
+    - Plank starts horizontally
+- I prepared styling for dropped objects:
+    - Created .object class for objects that will be placed on the plank
+    - Objects will have the same color, blue with weight labels displayed on them.(may change the colors later - probably will add a range: 1-4 blue, 4- 7 red etc.)

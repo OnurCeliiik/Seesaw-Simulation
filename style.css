@@ -22,14 +22,24 @@
     margin-left: -200px;
     margin-top: -10px;
     border-radius: 5px;
+
+    /* rotation point is the center*/
+    transform-origin: center;
+
+    /* initial rotation is 0. plank starts horizontal*/
+    transform: rotate(0deg);
+
+    /* smooth transition when rotation happens*/
+    transition: transform 0.3s ease-out;
+
 }
 
 .pivot {
     width: 0;
     height: 0;
-    border-left: 10px solid transparent;
-    border-right: 10px solid transparent;
-    border-bottom: 20px solid black;
+    border-left: 20px solid transparent;
+    border-right: 20px solid transparent;
+    border-bottom: 40px solid black;
     position: absolute;
     left: 50%;
     top: calc(50% + 10px);
@@ -44,4 +54,19 @@
 
 .ui-section p {
     margin: 10px 0;
+}
+
+.plank .object {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    background-color: #4A90E2;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+    border: 2px solid #2E5C8A;
 }
