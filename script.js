@@ -137,3 +137,85 @@ function resetState() {
     saveState();
     console.log('State reset done, clear for usage');
 }
+
+
+/**
+ * Generates a random weight between minimum and maximum weight.
+ * @returns {number} 
+ */
+function generateRandomWeight() {
+    return Math.floor(Math.random() * (MAX_WEIGHT - MIN_WEIGHT + 1) + MIN_WEIGHT);
+}
+
+/**
+ * Handles click event on the plank.
+ * @param {MouseEvent} event
+ */
+function handlePlankClick(event) {
+    // Get the plank
+    const plankElement = document.getElementById('plank');
+
+    if (!plankElement) {
+        console.error('Plank element not found');
+        return;
+    }
+
+    // Get click position relative to plank
+    const clickX = getClickPositionRelativeToPlank(event, plankElement);
+
+    // Clicks that are only inside the plank boundaries should be processed.
+    if (clickX < 0 || clickX > PLANK_LENGTH) {
+        console.log('Click is outside the plank boundaries, try again', {
+            clickPosition: clickX.toFixed(1) + ' px',
+            validRange: '0 to ' + PLANK_LENGTH + ' px',
+        });
+        return;
+        
+    }
+
+    // Calculate distance from pivot
+    const distance = clickEventToDistance(clickX);
+
+    // Generate random weight
+    const weight = generateRandomWeight();
+
+    // Create the new object and add it to the state
+    const newObject = createObject(weight, distance);
+
+    console.log('New object created:', {
+        id: newObject.id,
+        weight: weight + ' kg',
+        distance: distance + ' px',
+        side: distance < 0 ? 'left' : 'right'
+    });
+
+    // Save the state to local storage
+    saveState();
+}
+
+/**
+ * Initialize the click listener on the plank.
+ */
+function initializeClickListener() {
+    const plankElement = document.getElementById('plank');
+
+    if (!plankElement) {
+        console.error('Plank element not found');
+        return;
+    }
+
+    // Attach click event listener to the plank
+
+    plankElement.addEventListener('click', handlePlankClick);
+
+    console.log('Click listener initialized, please click on the plank');
+}
+
+window.addEventListener('DOMContentLoaded', function() {
+    const loaded = loadState();
+    if (!loaded) {
+        console.log('No saved state found to load, starting fresh');
+    }
+
+    initializeClickListener();
+})

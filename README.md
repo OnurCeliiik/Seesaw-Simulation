@@ -55,3 +55,11 @@
     - saveState() -> saves the current state to local storage.
     - loadState() -> loads the state from local storage.
     - resetState() -> resets the state to it's initial values.
+
+### Stage 6
+- I started working on the user interaction.
+- When the user clicks on the plank:
+    - We will calculate the distance from the pivot.
+    - we will control to make sure the click is inside the boundaries of the plank. (when testing I got -200.5px, added check to make sure this does not happen)
+    - We will generate a random weight.
+    - We will create the new object with it's properties, add it to the state and save the state.
