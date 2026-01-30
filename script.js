@@ -315,6 +315,8 @@ function updatePlankRotation() {
 
     plankElement.style.transform = `rotate(${state.angle}deg)`;
 
+    updateAngleDisplay(state.angle);
+
     console.log('Plank rotation updated to:', state.angle.toFixed(2) + ' degrees');
 }
 
@@ -346,6 +348,31 @@ function updateWeightTotals(leftWeight, rightWeight, leftCount, rightCount) {
         left: leftWeight.toFixed(1) + ' kg (' + leftCount + ' objects)',
         right: rightWeight.toFixed(1) + ' kg (' + rightCount + ' objects)'
     });
+}
+
+/**
+ * Updates the angle display in the UI.
+ * @param {number} angle
+ */
+function updateAngleDisplay(angle) {
+    const angleElement = document.getElementById('angle-display');
+
+    if (!angleElement) {
+        console.error('Angle display element not found - cannot update');
+        return;
+    }
+
+    angleElement.textContent = angle.toFixed(1) + '°';
+
+    if (angle > 0) {
+        angleElement.style.color = '#28A745';
+    } else if (angle < 0) {
+        angleElement.style.color = '#DC3545';
+    } else {
+        angleElement.style.color = '#007BFF';
+    }
+
+    console.log('Angle display updated to:', angle.toFixed(1) + '°');
 }
 
 /**
@@ -474,6 +501,8 @@ window.addEventListener('DOMContentLoaded', function() {
         renderAllObjects();
         updateAllDisplays();
     }
+
+    updateAngleDisplay(state.angle);
 
     initializeClickListener();
     initializeResetButton();
