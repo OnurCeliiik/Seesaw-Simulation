@@ -189,6 +189,9 @@ function handlePlankClick(event) {
         side: distance < 0 ? 'left' : 'right'
     });
 
+    // Render the new object
+    renderObject(newObject);
+
     // Calculate new balance and angle
     calculateSeesawBalance();
 
@@ -310,4 +313,79 @@ function updatePlankRotation() {
     plankElement.style.transform = `rotate(${state.angle}deg)`;
 
     console.log('Plank rotation updated to:', state.angle.toFixed(2) + ' degrees');
+}
+
+/**
+ * Creates a DOM element for an object and adds it to the plank.
+ * @param {Object} object
+ */
+function renderObject(object) {
+    const plankElement = document.getElementById('plank');
+
+    if (!plankElement) {
+        console.error('Plank element not found - cannot render object');
+        return;
+    }
+
+    // Create the object element
+    const objectElement = document.createElement('div');
+    objectElement.className = 'object';
+    objectElement.id = object.id;
+
+    // Set the weight label
+    objectElement.textContent = object.weight + ' kg';
+
+    // Position the object on the plank relative to the left edge
+    const positionFromLeft = PIVOT_POSITION + object.distance;
+
+    const objectWidth = 30;
+    objectElement.style.left = (positionFromLeft - objectWidth / 2) + 'px';
+
+    const objectHeight = 30;
+    const plankHeight = 20;
+    objectElement.style.top = ((plankHeight - objectHeight) / 2) + 'px';
+
+    plankElement.appendChild(objectElement);
+
+    console.log('Object rendered', {
+        id: object.id,
+        weight: object.weight + ' kg',
+        distance: object.distance + ' px',
+        positionFromLeft: positionFromLeft + ' px'
+    });
+}
+
+/**
+ * Renders all objects from state for restoring after page reload
+ */
+function renderAllObjects() {
+    const plankElement = document.getElementById('plank');
+
+    if (!plankElement) {
+        console.error('Plank element not found - cannot render objects');
+        return;
+    }
+
+    // Clear existing objects
+    const existingObjects = plankElement.querySelectorAll('.object');
+    existingObjects.forEach(obj => obj.remove());
+
+    // Render each object in state
+    for (let i=0; i < state.objects.length; i++) {
+        renderObject(state.objects[i]);
+    }
+
+    console.log('All objects rendered:', state.objects.length);
+}
+
+/**
+ * Removes a rendered object from the DOM.
+ * @param {string} objectId
+ */
+function removeRenderedObject(objectId) {
+    const objectElement = document.getElementById(objectId);
+    if (!objectElement) {
+        objectElement.remove();
+        console.log('Object removed from DOM:', objectId);
+    }
 }
