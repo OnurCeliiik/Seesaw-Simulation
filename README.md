@@ -79,3 +79,15 @@
 ### Stage 8
 - I added updatePlankRotation() function to rotate the plank.
 - Now, when we add an object to the plank, the plank will rotate according to the angle.
+
+### Stage 9
+- Before this stage, the weights were added to the plank was there were no visual for the objects.
+- Now, when we click onto the plank, we are visually getting the objects with their weight written as the text content.
+- Currently, all objects, regarding their weight, have the same color and size. I will be changing them, dividing the total range to 3 and adjust their size and color accordingly.
+
+### Stage 10
+- I added total weight display in the UI.
+- I added object counts in the UI.
+
+### Stage 11
+- I added the reset button.

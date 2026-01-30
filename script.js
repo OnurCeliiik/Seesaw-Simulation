@@ -189,6 +189,9 @@ function handlePlankClick(event) {
         side: distance < 0 ? 'left' : 'right'
     });
 
+    // Render the new object
+    renderObject(newObject);
+
     // Calculate new balance and angle
     calculateSeesawBalance();
 
@@ -276,6 +279,9 @@ function calculateSeesawBalance() {
     // Update the state with the new angle
     state.angle = angle;
 
+    // Update the weight totals display
+    updateWeightTotals(leftTotalWeight, rightTotalWeight, leftObjectsCount, rightObjectsCount);
+
     console.log('Balance calculated:', {
         leftTorque: leftTorque.toFixed(2),
         rightTorque: rightTorque.toFixed(2),
@@ -311,3 +317,164 @@ function updatePlankRotation() {
 
     console.log('Plank rotation updated to:', state.angle.toFixed(2) + ' degrees');
 }
+
+/**
+ * Updates the weight totals display in the UI.
+ * @param {number} leftWeight
+ * @param {number} rightWeight
+ * @param {number} leftCount
+ * @param {number} rightCount
+ */
+function updateWeightTotals(leftWeight, rightWeight, leftCount, rightCount) {
+    const leftWeightElement = document.getElementById('left-weight');
+    const rightWeightElement = document.getElementById('right-weight');
+    const leftCountElement = document.getElementById('left-count');
+    const rightCountElement = document.getElementById('right-count');
+
+    if (!leftWeightElement || !rightWeightElement || !leftCountElement || !rightCountElement) {
+        console.error('Weight display elements not found - cannot update totals');
+        return;
+    }
+
+    leftWeightElement.textContent = leftWeight.toFixed(1);
+    rightWeightElement.textContent = rightWeight.toFixed(1);
+
+    leftCountElement.textContent = leftCount;
+    rightCountElement.textContent = rightCount;
+
+    console.log('Weight totals updated:', {
+        left: leftWeight.toFixed(1) + ' kg (' + leftCount + ' objects)',
+        right: rightWeight.toFixed(1) + ' kg (' + rightCount + ' objects)'
+    });
+}
+
+/**
+ * Creates a DOM element for an object and adds it to the plank.
+ * @param {Object} object
+ */
+function renderObject(object) {
+    const plankElement = document.getElementById('plank');
+
+    if (!plankElement) {
+        console.error('Plank element not found - cannot render object');
+        return;
+    }
+
+    // Create the object element
+    const objectElement = document.createElement('div');
+    objectElement.className = 'object';
+    objectElement.id = object.id;
+
+    // Set the weight label
+    objectElement.textContent = object.weight + ' kg';
+
+    // Position the object on the plank relative to the left edge
+    const positionFromLeft = PIVOT_POSITION + object.distance;
+
+    const objectWidth = 30;
+    objectElement.style.left = (positionFromLeft - objectWidth / 2) + 'px';
+
+    const objectHeight = 30;
+    const plankHeight = 20;
+    objectElement.style.top = ((plankHeight - objectHeight) / 2) + 'px';
+
+    plankElement.appendChild(objectElement);
+
+    console.log('Object rendered', {
+        id: object.id,
+        weight: object.weight + ' kg',
+        distance: object.distance + ' px',
+        positionFromLeft: positionFromLeft + ' px'
+    });
+}
+
+/**
+ * Renders all objects from state for restoring after page reload
+ */
+function renderAllObjects() {
+    const plankElement = document.getElementById('plank');
+
+    if (!plankElement) {
+        console.error('Plank element not found - cannot render objects');
+        return;
+    }
+
+    // Clear existing objects
+    const existingObjects = plankElement.querySelectorAll('.object');
+    existingObjects.forEach(obj => obj.remove());
+
+    // Render each object in state
+    for (let i=0; i < state.objects.length; i++) {
+        renderObject(state.objects[i]);
+    }
+
+    console.log('All objects rendered:', state.objects.length);
+}
+
+/**
+ * Removes a rendered object from the DOM.
+ * @param {string} objectId
+ */
+function removeRenderedObject(objectId) {
+    const objectElement = document.getElementById(objectId);
+    if (!objectElement) {
+        objectElement.remove();
+        console.log('Object removed from DOM:', objectId);
+    }
+}
+
+function updateAllDisplays() {
+    calculateSeesawBalance();
+}
+
+/**
+ * Resets the seesaw simulation to initial state.
+ * Objects are removed, angle is reset to 0.
+ * Saves the reset state.
+ */
+function resetSimulation() {
+    const plankElement = document.getElementById('plank');
+    if (plankElement) {
+        const existingObjects = plankElement.querySelectorAll('.object');
+        existingObjects.forEach(obj => obj.remove());
+    }
+
+    resetState();
+
+    updateAllDisplays();
+
+    console.log('Simulation reset done, ready for new session');
+}
+
+/**
+ * Initializes the reset button.
+ */
+function initializeResetButton(){
+    const resetButton = document.getElementById('reset_button');
+
+    if (!resetButton) {
+        console.error('Reset button not found - cannot initialize');
+        return;
+    }
+
+    resetButton.addEventListener('click', function() {
+        if (confirm('Are you sure you want to reset the seesaw? All objects will be removed.')) {
+            resetSimulation();
+        }
+    });
+
+    console.log('Reset button initialized, click to reset');
+}
+
+window.addEventListener('DOMContentLoaded', function() {
+    const loaded = loadState();
+    if (!loaded) {
+        console.log('No saved state found to load, starting fresh');
+    } else {
+        renderAllObjects();
+        updateAllDisplays();
+    }
+
+    initializeClickListener();
+    initializeResetButton();
+})
