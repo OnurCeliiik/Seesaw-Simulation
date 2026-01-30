@@ -174,7 +174,7 @@ function handlePlankClick(event) {
     }
 
     // Calculate distance from pivot
-    const distance = clickEventToDistance(clickX);
+    const distance = clickPositionToDistance(clickX);
 
     // Generate random weight
     const weight = generateRandomWeight();
@@ -188,6 +188,9 @@ function handlePlankClick(event) {
         distance: distance + ' px',
         side: distance < 0 ? 'left' : 'right'
     });
+
+    // Calculate new balance and angle
+    calculateSeesawBalance();
 
     // Save the state to local storage
     saveState();
@@ -219,3 +222,73 @@ window.addEventListener('DOMContentLoaded', function() {
 
     initializeClickListener();
 })
+
+/**
+ * Calculates the torques for a single object.
+ * @param {Object} object
+ * @returns {number}
+ */
+function calculateObjectTorque(object) {
+    return object.weight * object.distance;
+}
+
+/**
+ * Calculates the net torque and updates the seesaw angle.
+ */
+function calculateSeesawBalance() {
+    // Initialize torque sums
+    let leftTorque = 0;
+    let rightTorque = 0; 
+    let leftObjectsCount = 0; // Number of objects on the left side
+    let rightObjectsCount = 0; // Number of objects on the right side
+    let totalObjectsCount = 0; // Total number of objects
+    let leftTotalWeight = 0; // Sum of all weights on the left side
+    let rightTotalWeight = 0; // Sum of weights on the right side 
+    let totalWeight = 0; // Sum of all weights 
+
+    // Loop through all objects and calculate torques
+    for (let i=0; i < state.objects.length; i++) {
+        const object = state.objects[i];
+        const torque = calculateObjectTorque(object);
+
+        // Separate left and right torques
+        if (object.distance < 0) {
+            // Object is on the left side (negative distance)
+            leftTorque += Math.abs(torque);
+            leftObjectsCount++;
+            leftTotalWeight += object.weight;
+        } else if (object.distance > 0) {
+            // Object is on the right side (positive distance)
+            rightTorque += torque;
+            rightObjectsCount++;
+            rightTotalWeight += object.weight;
+        }
+        totalObjectsCount = leftObjectsCount + rightObjectsCount;
+        totalWeight = leftTotalWeight + rightTotalWeight;
+    }
+
+    // Calculate angle with the formula
+    const rawAngle = (rightTorque - leftTorque) / TORQUE_SCALE;
+
+    // We have an angle between -30 to +30 degrees, so we need to clamp it.
+    const angle = Math.max(MIN_ANGLE, Math.min(MAX_ANGLE, rawAngle));
+
+    // Update the state with the new angle
+    state.angle = angle;
+
+    console.log('Balance calculated:', {
+        leftTorque: leftTorque.toFixed(2),
+        rightTorque: rightTorque.toFixed(2),
+        netTorque: (rightTorque - leftTorque).toFixed(2),
+        angle: angle.toFixed(2) + ' degrees',
+        objectCount: state.objects.length,
+        leftObjectsCount: leftObjectsCount,
+        rightObjectsCount: rightObjectsCount,
+        totalObjectsCount: totalObjectsCount,
+        leftTotalWeight: leftTotalWeight.toFixed(2) + ' kg',
+        rightTotalWeight: rightTotalWeight.toFixed(2) + ' kg',
+        totalWeight: totalWeight.toFixed(2) + ' kg'
+    });
+
+    return angle;
+}

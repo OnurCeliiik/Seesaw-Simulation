@@ -63,3 +63,15 @@
     - we will control to make sure the click is inside the boundaries of the plank. (when testing I got -200.5px, added check to make sure this does not happen)
     - We will generate a random weight.
     - We will create the new object with it's properties, add it to the state and save the state.
+
+### Stage 7
+- I started working on the torque and angle calculations.
+    - Using a loop, I calculated the torque of every object, stored them in variables according to their distance from the pivot. 
+    - Then, using the formula I calculated the raw angle and clamped it according to the min and max angles.
+    - Apart from the torque values for the angle calculation, I decided to keep other data for further use:
+        - left object count -> number of objects on the left side
+        - right object count -> number of objects on the right side
+        - total object count -> total number of objects
+        - left weight count -> sum of all weights on the left side
+        - right weight count -> sum of all weights on the right side
+        - total weight count -> sum of all weights
