@@ -10,32 +10,42 @@
     <div class="container">
         <h1>Seesaw Simulation</h1>
 
-        <!-- This is where my seesaw will be placed -->
-        <div class="seesaw-wrapper">
-            <!-- 
-            This is my plank. 
-            I will be using this div to represent the plank, horizontall board that will rotate.
-            Objects will be placed inside, to make them rotate with the plank.
-             -->
-            <div id="plank" class="plank">
-
+        <!-- Wrapper box for seesaw and stats-->
+        <div class="simulation-box">
+            <div class="ui-section">
+                <div class="stat-item">
+                    <span class="stat-label">Left Weight:</span>
+                    <span id="left-weight" class="stat-value">0</span>
+                    <span class="stat-unit">kg</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Left Objects:</span>
+                    <span id="left-count" class="stat-value">0</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Right Weight:</span>
+                    <span id="right-weight" class="stat-value">0</span>
+                    <span class="stat-unit">kg</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Right Objects:</span>
+                    <span id="right-count" class="stat-value">0</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Angle:</span>
+                    <span id="angle-display" class="stat-value">0</span>
+                    <span class="stat-unit">°</span>
+                </div>
             </div>
 
-            <!--
-            This is my pivot.
-            I will be using this div to represent the pivot, the plank's center point.
-            It doesn't rotate, just a fixed point.
-            -->
-            <div class="pivot">
+            <!-- Seesaw section-->
+             <div class="seesaw-wrapper">
+                <div id="plank" class="plank"></div>
+                <div class="pivot"></div>
+             </div>
 
-            </div>
-            
-        </div>
-
-        <div class="ui-section">
-            <p>Left weight: <span id="left-weight">0</span> kg (<span id="left-count">0</span> objects)</p>
-            <p>Right weight: <span id="right-weight">0</span> kg (<span id="right-count">0</span> objects)</p>
-            <button id="reset_button" class="reset-button">Reset Seesaw</button>
+             <!-- Reset button-->
+              <button id="reset_button" class="reset-button">Reset Seesaw</button>
         </div>
     </div>
 
