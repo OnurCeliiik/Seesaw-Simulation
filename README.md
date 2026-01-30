@@ -45,3 +45,13 @@
 - I prepared styling for dropped objects:
     - Created .object class for objects that will be placed on the plank
     - Objects will have the same color, blue with weight labels displayed on them.(may change the colors later - probably will add a range: 1-4 blue, 4- 7 red etc.)
+
+### Stage 5
+- I created a global state object.
+    - In  this object, I will keep an array of objects placed on the seesaw, and the current angle of the state.
+- I created helper function:
+    - generateObjectID() -> generates a unique id for each object
+    - createObject(weight, distance) -> creates a new object with id, weight and distance from the pivot, and adds the new object to the state.objects
+    - saveState() -> saves the current state to local storage.
+    - loadState() -> loads the state from local storage.
+    - resetState() -> resets the state to it's initial values.
