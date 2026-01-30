@@ -290,5 +290,24 @@ function calculateSeesawBalance() {
         totalWeight: totalWeight.toFixed(2) + ' kg'
     });
 
+    // Update the visual rotation of the plank
+    updatePlankRotation();
+
     return angle;
+}
+
+/**
+ * Updates the plank's rotation to match the current angle.
+ */
+function updatePlankRotation() {
+    const plankElement = document.getElementById('plank');
+
+    if (!plankElement) {
+        console.error('Plank element not found - cannot update rotation');
+        return;
+    }
+
+    plankElement.style.transform = `rotate(${state.angle}deg)`;
+
+    console.log('Plank rotation updated to:', state.angle.toFixed(2) + ' degrees');
 }
