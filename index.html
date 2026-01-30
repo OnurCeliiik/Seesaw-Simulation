@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seesaw Simulation</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Seesaw Simulation</h1>
+
+        <!-- This is where my seesaw will be placed -->
+        <div class="seesaw-wrapper">
+            <!-- 
+            This is my plank. 
+            I will be using this div to represent the plank, horizontall board that will rotate.
+            Objects will be placed inside, to make them rotate with the plank.
+             -->
+            <div id="plank" class="plank">
+
+            </div>
+
+            <!--
+            This is my pivot.
+            I will be using this div to represent the pivot, the plank's center point.
+            It doesn't rotate, just a fixed point.
+            -->
+            <div class="pivot">
+
+            </div>
+            
+        </div>
+
+        <div class="ui-section">
+            <p>Left weight: <span id="left-weight">0</span> kg</p>
+            <p>Right weight: <span id="right-weight">0</span> kg</p>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
