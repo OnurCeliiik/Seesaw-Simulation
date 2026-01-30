@@ -75,3 +75,7 @@
         - left weight count -> sum of all weights on the left side
         - right weight count -> sum of all weights on the right side
         - total weight count -> sum of all weights
+
+### Stage 8
+- I added updatePlankRotation() function to rotate the plank.
+- Now, when we add an object to the plank, the plank will rotate according to the angle.
